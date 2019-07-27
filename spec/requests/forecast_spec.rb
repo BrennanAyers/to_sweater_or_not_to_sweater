@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Forecast API' do
   before :each do
-
   end
 
   it 'sends the weather for Denver' do

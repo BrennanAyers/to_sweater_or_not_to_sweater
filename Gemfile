@@ -48,7 +48,6 @@ group :development, :test do
   gem 'simplecov'
   gem 'shoulda-matchers'
   gem 'activesupport'
-
 end
 
 group :development do
