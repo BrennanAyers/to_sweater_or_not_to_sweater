@@ -5,7 +5,7 @@ module Api
     # A controller to take in a forecast request, process it, and return JSON
     class ForecastController < ApplicationController
       def show
-        google_maps_service.geocodes(params[:location])
+        google_maps_service.geocode(params[:location])
         render json: ForecastSerializer.new
       end
 

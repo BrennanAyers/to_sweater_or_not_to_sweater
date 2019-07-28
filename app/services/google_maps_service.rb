@@ -2,7 +2,7 @@
 
 # A Service to access the Google Maps API for geocoding
 class GoogleMapsService
-  def geocodes(address)
+  def geocode(address)
     get_json("geocode/json", {address: address})
   end
 
