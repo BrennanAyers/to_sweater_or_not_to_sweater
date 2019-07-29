@@ -9,6 +9,7 @@ RSpec.describe Munchy do
 
     expect(munchy).to be_a Munchy
     expect(munchy.name).to eq("Kan's Kitchen")
-    expect(munchy.address).to eq("1620 S Prairie Ave, Pueblo, CO 81005")
+    expect(munchy.address).to eq('1620 S Prairie Ave, Pueblo, CO 81005')
+    expect(munchy.id).to eq('M4MwxQAA58B7ENV8ootI-w')
   end
 end
