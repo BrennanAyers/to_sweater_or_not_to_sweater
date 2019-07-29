@@ -7,6 +7,7 @@ module Api
     class MunchiesController < ApplicationController
       def index
         directions = google_maps_service.directions(params[:start], params[:end])
+        restaurants = yelp_service.businesses(params[:end], directions[:routes][0][:legs][0][:duration][:value], params[:food])
         require "pry"; binding.pry
       end
 
@@ -14,6 +15,10 @@ module Api
 
       def google_maps_service
         @_google_maps_service ||= GoogleMapsService.new
+      end
+
+      def yelp_service
+        @_yelp_service ||= YelpService.new
       end
     end
   end
