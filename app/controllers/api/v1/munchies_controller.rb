@@ -8,8 +8,8 @@ module Api
       def index
         directions = google_maps_service.directions(params[:start], params[:end])
         restaurants = yelp_service.businesses(params[:end], directions[:routes][0][:legs][0][:duration][:value], params[:food])
-        munchies = MunchiesGenerator.new(restaurants)
-        require "pry"; binding.pry
+        munchies = MunchiesGenerator.new(restaurants).top_3
+        render json: MunchiesSerializer.new(munchies)
       end
 
       private
