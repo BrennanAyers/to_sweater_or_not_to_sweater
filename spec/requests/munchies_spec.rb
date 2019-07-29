@@ -11,10 +11,10 @@ describe 'Munchies API' do
     results = JSON.parse(response.body)
 
     expect(results).to be_a Hash
-    expect(results[:destination]).to eq('Pueblo, CO')
-    expect(results[:restaurants]).to be_an Array
-    expect(results[:restaurants].count).to eq(3)
-    expect(results[:restaurants].first).to have_key :name
-    expect(results[:restaurants].first).to have_key :address
+    expect(results['meta']['destination']).to eq('Pueblo')
+    expect(results['data']).to be_an Array
+    expect(results['data'].count).to eq(3)
+    expect(results['data'].first['attributes']).to have_key 'name'
+    expect(results['data'].first['attributes']).to have_key 'address'
   end
 end
