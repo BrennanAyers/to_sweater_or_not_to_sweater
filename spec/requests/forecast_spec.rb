@@ -7,7 +7,9 @@ describe 'Forecast API' do
   end
 
   it 'sends the weather for Denver' do
-    get '/api/v1/forecast?location=denver, co'
+    VCR.use_cassette('forecast_endpoint') do
+      get '/api/v1/forecast?location=denver, co'
+    end
 
     expect(response).to be_successful
 
@@ -49,5 +51,11 @@ describe 'Forecast API' do
     expect(daily.first).to have_key(:precip_type)
     expect(daily.first).to have_key(:temperature_high)
     expect(daily.first).to have_key(:temperature_low)
+    expect(daily.last).to have_key(:time)
+    expect(daily.last).to have_key(:icon)
+    expect(daily.last).to have_key(:precip_probability)
+    expect(daily.last).to have_key(:precip_type)
+    expect(daily.last).to have_key(:temperature_high)
+    expect(daily.last).to have_key(:temperature_low)
   end
 end
