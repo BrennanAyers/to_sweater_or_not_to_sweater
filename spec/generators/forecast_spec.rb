@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-include ActiveSupport::Testing::TimeHelpers
 
 RSpec.describe ForecastGenerator do
+  include ActiveSupport::Testing::TimeHelpers
+  
   before :each do
     travel_to Time.at(1564506000)
     geocode = File.read('./spec/fixtures/forecast_generator_geocode.json')

@@ -20,4 +20,8 @@ Metrics/LineLength:
 
 Style/NumericLiterals:
   Exclude:
-    - '**'
+    - './**'
+
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - './**'
