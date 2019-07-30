@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# An object to take in forecast and geocode information and create POROs to be
+# serialized for the Forecast endpoint
 class ForecastGenerator
   attr_reader :id, :timezone, :location
 

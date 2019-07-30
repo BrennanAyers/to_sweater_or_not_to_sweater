@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# A PORO for holding Current forecast information
 class Currently
   attr_reader :summary, :icon, :precip_probability, :precip_type, :temperature, :apparent_temperature, :humidity, :uv_index, :visibility, :temperature_high, :temperature_low
 

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# A PORO for holding Daily forecast information
 class Daily
   attr_reader :time, :icon, :precip_probability, :precip_type, :temperature_high, :temperature_low
 
