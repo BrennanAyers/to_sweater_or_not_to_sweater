@@ -8,8 +8,9 @@ module Api
         geocode = google_maps_service.geocode(params[:location])[:results][0]
         lat = geocode[:geometry][:location][:lat]
         long = geocode[:geometry][:location][:lng]
-        dark_sky_service.forecast([lat, long])
-        render json: ForecastSerializer.new
+        forecast = dark_sky_service.forecast([lat, long])
+        generated_forecast =  ForecastGenerator.new(forecast, geocode)
+        render json: ForecastSerializer.new(generated_forecast)
       end
 
       private
