@@ -20,7 +20,6 @@ RSpec.describe ForecastGenerator do
     expect(@subject.id).to eq(1564506000)
     expect(@subject.timezone).to eq('America/Denver')
     expect(@subject.location).to eq('Denver, CO, USA')
-    require "pry"; binding.pry
   end
 
   it 'should have a Currently object' do
