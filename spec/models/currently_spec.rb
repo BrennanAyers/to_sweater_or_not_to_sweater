@@ -17,7 +17,7 @@ RSpec.describe Currently do
     expect(@currently.temperature).to eq(87.98)
     expect(@currently.apparent_temperature).to eq(87.98)
     expect(@currently.humidity).to eq(0.25)
-    expect(@currently.uv_index).to eq("6 (high)")
+    expect(@currently.uv_index).to eq('6 (high)')
     expect(@currently.visibility).to eq(3.65)
     expect(@currently.temperature_high).to eq(95.21)
     expect(@currently.temperature_low).to eq(68.15)

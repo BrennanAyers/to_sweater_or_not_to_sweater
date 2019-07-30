@@ -2,7 +2,17 @@
 
 # A PORO for holding Current forecast information
 class Currently
-  attr_reader :summary, :icon, :precip_probability, :precip_type, :temperature, :apparent_temperature, :humidity, :uv_index, :visibility, :temperature_high, :temperature_low
+  attr_reader :summary,
+              :icon,
+              :precip_probability,
+              :precip_type,
+              :temperature,
+              :apparent_temperature,
+              :humidity,
+              :uv_index,
+              :visibility,
+              :temperature_high,
+              :temperature_low
 
   def initialize(full_forecast, daily_forecast)
     @summary = full_forecast[:summary]
@@ -20,11 +30,11 @@ class Currently
 
   def uv_index_processed(uv_index_number)
     case uv_index_number
-    when 0..2; "#{uv_index_number} (low)"
-    when 3..5; "#{uv_index_number} (moderate)"
-    when 6..7; "#{uv_index_number} (high)"
-    when 8..10; "#{uv_index_number} (very high)"
-    when 11..100; "#{uv_index_number} (extreme)"
+    when 0..2; then "#{uv_index_number} (low)"
+    when 3..5; then "#{uv_index_number} (moderate)"
+    when 6..7; then "#{uv_index_number} (high)"
+    when 8..10; then "#{uv_index_number} (very high)"
+    when 11..100; then "#{uv_index_number} (extreme)"
     end
   end
 end

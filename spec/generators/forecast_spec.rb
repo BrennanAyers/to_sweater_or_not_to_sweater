@@ -7,11 +7,9 @@ RSpec.describe ForecastGenerator do
   before :each do
     travel_to Time.at(1564506000)
     geocode = File.read('./spec/fixtures/forecast_generator_geocode.json')
-    stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=denver, co&key=#{ENV['GOOGLE_MAPS_KEY']}")
-          .to_return(status: 200, body: geocode)
+    stub_request(:get, "https://maps.googleapis.com/maps/api/geocode/json?address=denver, co&key=#{ENV['GOOGLE_MAPS_KEY']}").to_return(status: 200, body: geocode)
     dark_sky = File.read('./spec/fixtures/forecast_generator_dark_sky.json')
-    stub_request(:get, "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/39.7392358,-104.990251")
-          .to_return(status: 200, body: dark_sky)
+    stub_request(:get, "https://api.darksky.net/forecast/#{ENV['DARK_SKY_KEY']}/39.7392358,-104.990251").to_return(status: 200, body: dark_sky)
     @subject = ForecastGenerator.new('denver, co')
     travel_back
   end
@@ -37,5 +35,4 @@ RSpec.describe ForecastGenerator do
     expect(@subject.daily.first).to be_a Daily
     expect(@subject.daily.last).to be_a Daily
   end
-
 end

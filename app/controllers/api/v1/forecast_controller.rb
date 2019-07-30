@@ -5,7 +5,7 @@ module Api
     # A controller to take in a forecast request, process it, and return JSON
     class ForecastController < ApplicationController
       def show
-        generated_forecast =  ForecastGenerator.new(params[:location])
+        generated_forecast = ForecastGenerator.new(params[:location])
         render json: ForecastSerializer.new(generated_forecast)
       end
     end
