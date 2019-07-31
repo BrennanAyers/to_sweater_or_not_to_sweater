@@ -9,6 +9,8 @@ module Api
         if user
           generated_forecast = RoadTripGenerator.new(params[:origin], params[:destination])
           render json: RoadTripSerializer.new(generated_forecast)
+        else
+          render json: { error: 'Unauthorized' }, status: 401
         end
       end
     end
