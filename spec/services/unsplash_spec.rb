@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe UnsplashService do
   it '#search' do
     VCR.use_cassette('unsplash_search') do
-      @search = subject.search('denver, co')
+      @search = subject.search('denver')
     end
 
     expect(@search).to be_a Hash
