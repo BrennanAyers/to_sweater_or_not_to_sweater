@@ -7,7 +7,7 @@ module Api
       def show
         user = User.find_by(api_key: params[:api_key])
         if user
-          generated_forecast = RoadTripGenerator.new(params[:location], params[:destination])
+          generated_forecast = RoadTripGenerator.new(params[:origin], params[:destination])
           render json: RoadTripSerializer.new(generated_forecast)
         end
       end
