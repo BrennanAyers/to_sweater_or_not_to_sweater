@@ -3,20 +3,25 @@
 require 'rails_helper'
 
 describe 'Road Trip API' do
+  include ActiveSupport::Testing::TimeHelpers
+
   it 'should return a forecast for the destination location, after adding travel time' do
-    VCR.turn_off!
     user = User.create!(email: 'test@test.com', password: 'password')
-    get api_v1_road_trip_path, params: { origin: 'Denver,CO', destination: 'Pueblo,CO', api_key: user.api_key }
+    travel_to Time.at(1564586681)
+    VCR.use_cassette('road_trip_endpoint') do
+      get api_v1_road_trip_path, params: { origin: 'Denver,CO', destination: 'Pueblo,CO', api_key: user.api_key }
+    end
+    travel_back
 
     expect(response).to be_successful
 
     forecast = JSON.parse(response.body, symbolize_names: true)[:data]
 
-    expect(forecast[:id]).to eq((Time.now.to_i + 6413).to_s)
+    expect(forecast[:id]).to eq('1564593094')
     expect(forecast[:type]).to eq('road_trip')
     expect(forecast[:attributes][:timezone]).to eq('America/Denver')
     expect(forecast[:attributes][:location]).to eq('Pueblo, CO, USA')
-    expect(forecast[:attributes][:estimated_travel_time]).to eq('1 hour 47 minutes')
+    expect(forecast[:attributes][:estimated_travel_time]).to eq('1 hour 47 mins')
 
     currently = forecast[:attributes][:currently]
     expect(currently).to be_a Hash
@@ -42,13 +47,13 @@ describe 'Road Trip API' do
     expect(hourly.last).to have_key(:icon)
 
     daily = forecast[:attributes][:daily]
-    expect(daily.count).to eq(1)
-    expect(daily.first).to have_key(:time)
-    expect(daily.first).to have_key(:icon)
-    expect(daily.first).to have_key(:precip_probability)
-    expect(daily.first).to have_key(:precip_type)
-    expect(daily.first).to have_key(:temperature_high)
-    expect(daily.first).to have_key(:temperature_low)
+    expect(daily).to be_a Hash
+    expect(daily).to have_key(:time)
+    expect(daily).to have_key(:icon)
+    expect(daily).to have_key(:precip_probability)
+    expect(daily).to have_key(:precip_type)
+    expect(daily).to have_key(:temperature_high)
+    expect(daily).to have_key(:temperature_low)
 
   end
 end
