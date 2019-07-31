@@ -6,16 +6,12 @@ class RoadTripGenerator
   attr_reader :id, :timezone, :location, :estimated_travel_time
 
   def initialize(origin, destination)
-    destination_geocode = google_maps_service.geocode(destination)[:results][0]
-    lat = destination_geocode[:geometry][:location][:lat]
-    long = destination_geocode[:geometry][:location][:lng]
-    directions = google_maps_service.directions(origin, destination)[:routes]
-    duration = directions[0][:legs][0][:duration][:value]
-    @forecast = dark_sky_service.forecast([lat, long], duration)
-    @id = Time.now.to_i + duration
+    time_traveled = duration(origin, destination)
+    @forecast = dark_sky_service.forecast([lat(destination), long(destination)], time_traveled)
+    @id = Time.now.to_i + time_traveled
     @timezone = @forecast[:timezone]
-    @location = destination_geocode[:formatted_address]
-    @estimated_travel_time = directions[0][:legs][0][:duration][:text]
+    @location = destination_geocode(destination)[:formatted_address]
+    @estimated_travel_time = directions(origin, destination)[0][:legs][0][:duration][:text]
   end
 
   def currently
@@ -33,6 +29,26 @@ class RoadTripGenerator
   end
 
   private
+
+  def destination_geocode(destination)
+    @geocode ||= google_maps_service.geocode(destination)[:results][0]
+  end
+
+  def lat(destination)
+    destination_geocode(destination)[:geometry][:location][:lat]
+  end
+
+  def long(destination)
+    destination_geocode(destination)[:geometry][:location][:lng]
+  end
+
+  def directions(origin, destination)
+    @direction ||= google_maps_service.directions(origin, destination)[:routes]
+  end
+
+  def duration(origin, destination)
+    directions(origin, destination)[0][:legs][0][:duration][:value]
+  end
 
   def google_maps_service
     @_google_maps_service ||= GoogleMapsService.new
