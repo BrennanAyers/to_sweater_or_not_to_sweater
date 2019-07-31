@@ -6,6 +6,7 @@ module Api
     class BackgroundController < ApplicationController
       def show
         generated_background = BackgroundGenerator.new(params[:location])
+        render json: BackgroundSerializer.new(generated_background)
       end
     end
   end
