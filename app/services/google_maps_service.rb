@@ -6,6 +6,10 @@ class GoogleMapsService
     get_json('geocode/json', address: address)
   end
 
+  def directions(origin, destination)
+    get_json('directions/json', { origin: origin, destination: destination })
+  end
+
   private
 
   def get_json(url, params)
