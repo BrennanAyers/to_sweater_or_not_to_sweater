@@ -4,5 +4,10 @@
 class RoadTripSerializer
   include FastJsonapi::ObjectSerializer
 
-  attributes :location, :timezone, :estimated_travel_time, :currently, :hourly, :daily
+  attributes :location,
+             :timezone,
+             :estimated_travel_time,
+             :currently,
+             :hourly,
+             :daily
 end

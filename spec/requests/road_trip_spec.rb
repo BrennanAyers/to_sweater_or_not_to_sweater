@@ -57,7 +57,7 @@ describe 'Road Trip API' do
   end
 
   it 'does not return a forecast without an API key' do
-    get api_v1_road_trip_path, params: { origin: 'Denver,CO', destination: 'Pueblo,CO'}
+    get api_v1_road_trip_path, params: { origin: 'Denver,CO', destination: 'Pueblo,CO' }
 
     expect(response).to_not be_successful
     expect(response.status).to eq(401)

@@ -28,5 +28,5 @@ RSpec.describe GoogleMapsService do
     expect(@directions[:routes].first[:legs].first).to have_key :duration
     expect(@directions[:routes].first[:legs].first[:duration]).to have_key :value
     expect(@directions[:routes].first[:legs].first[:duration][:value]).to be_an Integer
- end
+  end
 end

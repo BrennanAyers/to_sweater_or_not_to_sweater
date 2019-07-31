@@ -7,7 +7,7 @@ class GoogleMapsService
   end
 
   def directions(origin, destination)
-    get_json('directions/json', { origin: origin, destination: destination })
+    get_json('directions/json', origin: origin, destination: destination)
   end
 
   private

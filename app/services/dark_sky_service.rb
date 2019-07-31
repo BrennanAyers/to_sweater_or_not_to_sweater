@@ -4,7 +4,7 @@
 class DarkSkyService
   def forecast(lat_long, travel_time = 0)
     lat, long = lat_long
-    if travel_time == 0
+    if travel_time.zero?
       get_json("forecast/#{ENV['DARK_SKY_KEY']}/#{lat},#{long}")
     else
       time_stamp = Time.now.to_i + travel_time
