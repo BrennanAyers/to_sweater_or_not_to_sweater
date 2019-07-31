@@ -54,6 +54,16 @@ describe 'Road Trip API' do
     expect(daily).to have_key(:precip_type)
     expect(daily).to have_key(:temperature_high)
     expect(daily).to have_key(:temperature_low)
+  end
 
+  it 'does not return a forecast without an API key' do
+    get api_v1_road_trip_path, params: { origin: 'Denver,CO', destination: 'Pueblo,CO'}
+
+    expect(response).to_not be_successful
+    expect(response.status).to eq(401)
+
+    result = JSON.parse(response.body, symbolize_names: true)
+
+    expect(result[:error]).to eq('Unauthorized')
   end
 end
