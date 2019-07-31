@@ -7,6 +7,7 @@ describe 'Users Create API' do
     post api_v1_users_path, params: { 'email': 'test@test.com', 'password': 'password', 'password_confirmation': 'password'}
 
     expect(response).to be_successful
+    expect(response.status).to eq(201)
 
     result = JSON.parse(response.body, symbolize_names: true)
 
@@ -17,7 +18,8 @@ describe 'Users Create API' do
     User.create!(email: 'test@test.com', password_digest: 'failure')
     post api_v1_users_path, params: { 'email': 'test@test.com', 'password': 'password', 'password_confirmation': 'password'}
 
-    expect(response).to be_successful
+    expect(response).to_not be_successful
+    expect(response.status).to eq(409)
 
     result = JSON.parse(response.body, symbolize_names: true)
 
