@@ -9,7 +9,7 @@ describe 'Users Create API' do
     expect(response).to be_successful
 
     result = JSON.parse(response.body, symbolize_names: true)
-
-    expect(result[:api_key]).to_not be nil
+    
+    expect(result[:api_key]).to_not eq(nil)
   end
 end
