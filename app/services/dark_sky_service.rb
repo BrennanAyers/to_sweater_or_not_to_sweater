@@ -2,9 +2,14 @@
 
 # A service to reach out to the Dark Sky API and receive forecast information based on LatLong
 class DarkSkyService
-  def forecast(lat_long)
+  def forecast(lat_long, travel_time = 0)
     lat, long = lat_long
-    get_json("forecast/#{ENV['DARK_SKY_KEY']}/#{lat},#{long}")
+    if travel_time.zero?
+      get_json("forecast/#{ENV['DARK_SKY_KEY']}/#{lat},#{long}")
+    else
+      time_stamp = Time.now.to_i + travel_time
+      get_json("forecast/#{ENV['DARK_SKY_KEY']}/#{lat},#{long},#{time_stamp}")
+    end
   end
 
   private
