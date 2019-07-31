@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe BackgroundGenerator do
-
   it 'has an id and an image' do
     VCR.use_cassette('unsplash_search') do
       @subject = BackgroundGenerator.new('denver, co')
