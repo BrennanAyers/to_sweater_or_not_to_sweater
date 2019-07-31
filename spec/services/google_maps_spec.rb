@@ -15,4 +15,18 @@ RSpec.describe GoogleMapsService do
     expect(@geocode[:results].first[:geometry][:location]).to have_key :lat
     expect(@geocode[:results].first[:geometry][:location]).to have_key :lng
   end
+
+  it '#directions' do
+    VCR.use_cassette('google_maps_directions') do
+      @directions = subject.directions('denver, co', 'pueblo, co')
+    end
+
+    expect(@directions).to be_a Hash
+    expect(@directions[:routes]).to be_an Array
+    expect(@directions[:routes].first).to have_key :legs
+    expect(@directions[:routes].first[:legs]).to be_an Array
+    expect(@directions[:routes].first[:legs].first).to have_key :duration
+    expect(@directions[:routes].first[:legs].first[:duration]).to have_key :value
+    expect(@directions[:routes].first[:legs].first[:duration][:value]).to be_an Integer
+ end
 end
