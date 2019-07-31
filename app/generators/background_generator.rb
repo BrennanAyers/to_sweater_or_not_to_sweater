@@ -6,12 +6,17 @@ class BackgroundGenerator
 
   def initialize(location)
     @id = "#{location} background image"
-    unsplash_search = unsplash_service.search(location.split(',')[0])
-    unsplash_image = unsplash_search[:results][0]
+    unsplash_image = unsplash_search(location)[:results][0]
     @image = Background.new(unsplash_image)
   end
 
   private
+
+  def unsplash_search(location)
+    Rails.cache.fetch("background-#{location}", expires_in: 24.hours) do
+      unsplash_service.search(location.split(',')[0])
+    end
+  end
 
   def unsplash_service
     @_unsplash_service ||= UnsplashService.new

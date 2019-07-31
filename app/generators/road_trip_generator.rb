@@ -7,7 +7,7 @@ class RoadTripGenerator
 
   def initialize(origin, destination)
     time_traveled = duration(origin, destination)
-    @forecast = dark_sky_service.forecast([lat(destination), long(destination)], time_traveled)
+    @forecast = forecast_request(destination, time_traveled)
     @id = Time.now.to_i + time_traveled
     @timezone = @forecast[:timezone]
     @location = destination_geocode(destination)[:formatted_address]
@@ -31,7 +31,9 @@ class RoadTripGenerator
   private
 
   def destination_geocode(destination)
-    @geocode ||= google_maps_service.geocode(destination)[:results][0]
+    Rails.cache.fetch("geocode-#{destination}", expires_in: 24.hours) do
+      google_maps_service.geocode(destination)[:results][0]
+    end
   end
 
   def lat(destination)
@@ -43,11 +45,19 @@ class RoadTripGenerator
   end
 
   def directions(origin, destination)
-    @direction ||= google_maps_service.directions(origin, destination)[:routes]
+    Rails.cache.fetch("directions-#{origin}-#{destination}", expires_in: 24.hours) do
+      google_maps_service.directions(origin, destination)[:routes]
+    end
   end
 
   def duration(origin, destination)
     directions(origin, destination)[0][:legs][0][:duration][:value]
+  end
+
+  def forecast_request(destination, time_traveled)
+    Rails.cache.fetch("road-trip-#{destination}-#{time_traveled}", expires_in: 30.minutes) do
+      dark_sky_service.forecast([lat(destination), long(destination)], time_traveled)
+    end
   end
 
   def google_maps_service

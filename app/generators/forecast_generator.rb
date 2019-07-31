@@ -6,13 +6,10 @@ class ForecastGenerator
   attr_reader :id, :timezone, :location
 
   def initialize(location)
-    geocode = google_maps_service.geocode(location)[:results][0]
-    lat = geocode[:geometry][:location][:lat]
-    long = geocode[:geometry][:location][:lng]
-    @forecast = dark_sky_service.forecast([lat, long])
+    @forecast = forecast_request(location)
     @id = Time.now.to_i
     @timezone = @forecast[:timezone]
-    @location = geocode[:formatted_address]
+    @location = geocode(location)[:formatted_address]
   end
 
   def currently
@@ -32,6 +29,26 @@ class ForecastGenerator
   end
 
   private
+
+  def geocode(location)
+    Rails.cache.fetch("geocode-#{location}", expires_in: 24.hours) do
+      google_maps_service.geocode(location)[:results][0]
+    end
+  end
+
+  def lat(location)
+    geocode(location)[:geometry][:location][:lat]
+  end
+
+  def long(location)
+    geocode(location)[:geometry][:location][:lng]
+  end
+
+  def forecast_request(location)
+    Rails.cache.fetch("forecast-#{location}", expires_in: 30.minutes) do
+      dark_sky_service.forecast([lat(location), long(location)])
+    end
+  end
 
   def google_maps_service
     @_google_maps_service ||= GoogleMapsService.new
