@@ -5,8 +5,22 @@ module Api
     # A controller to create users in our Database
     class UsersController < ApplicationController
       def create
-        user = User.create({ email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation] })
-        render json: { 'test': 'test' }
+        user = User.new(user_params)
+        if user.save
+          render json: { api_key: user.api_key }
+        else
+          render json: { errors: user.errors.messages }
+        end
+      end
+
+      private
+
+      def user_params
+        {
+          email: params[:email],
+          password: params[:password],
+          password_confirmation: params[:password_confirmation]
+        }
       end
     end
   end
