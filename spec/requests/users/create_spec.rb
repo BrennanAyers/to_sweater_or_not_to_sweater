@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Users Create API' do
   it 'can create a user' do
-    post api_v1_users_path, params: { 'email': 'test@test.com', 'password': 'password', 'password_confirmation': 'password'}
+    post api_v1_users_path, params: { 'email': 'test@test.com', 'password': 'password', 'password_confirmation': 'password' }
 
     expect(response).to be_successful
     expect(response.status).to eq(201)
@@ -16,7 +16,7 @@ describe 'Users Create API' do
 
   it 'can not create a user with an existing email' do
     User.create!(email: 'test@test.com', password_digest: 'failure')
-    post api_v1_users_path, params: { 'email': 'test@test.com', 'password': 'password', 'password_confirmation': 'password'}
+    post api_v1_users_path, params: { 'email': 'test@test.com', 'password': 'password', 'password_confirmation': 'password' }
 
     expect(response).to_not be_successful
     expect(response.status).to eq(409)
